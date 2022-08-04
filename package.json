@@ -8,7 +8,8 @@
         "migrate": "npx prisma migrate dev",
         "push": "npx prisma db push",
         "db-push": "npm run push && npm run migrate",
-        "db-deploy": "npx prisma migrate deploy"
+        "db-deploy": "npx prisma migrate deploy",
+        "build":"docker-compose up --build -d"
     },
     "dependencies": {
         "@prisma/client": "^4.1.1",
