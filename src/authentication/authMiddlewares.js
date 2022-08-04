@@ -1,29 +1,34 @@
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
+
 const jwt = require('jsonwebtoken');
 const { isPasswordValid } = require('./authServices');
 
 module.exports.login = async (req, res, next) => {
-    const { username, password } = req.body;
+    const { login, password } = req.body;
     // Fetching userData from database 
-    const userInfo = "";
+    const userInfo = await prisma.admin.findFirst({
+        where: {
+            login: login
+        }
+    });
 
-    const hashPass = userInfo[0].password;
-
+    const hashPass = userInfo.password;
     //  Add more info if needed
-
-    const { userId, email } = userInfo[0];
+    const { id, name } = userInfo;
 
     if (hashPass && isPasswordValid(hashPass, password)) {
         req.body = {
-            userId: userId,
-            username: username,
-            email: email
+            userId: id,
+            name: name
         }
         next();
     } else {
         res.status(400).send({ errors: ['Invalid email or password'] });
     }
 }
-module.exports.isValidJWTToken = (req, res, next) => {
+
+module.exports.isValidAdminJWTToken = (req, res, next) => {
 
     if (req.headers['authorization']) {
         try {

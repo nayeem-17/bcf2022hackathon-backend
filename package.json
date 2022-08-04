@@ -4,13 +4,15 @@
     "private": true,
     "scripts": {
         "start": "node ./src/bin/www",
-        "dev": "node ./src/bin/www",
-        "test": "",
+        "dev": "nodemon ./src/bin/www",
+        "test": "npx jest --forceExit",
         "migrate": "npx prisma migrate dev",
-        "push": "npx prisma db push"
+        "push": "npx prisma db push",
+        "db-push": "npm run push && npm run migrate",
+        "db-deploy":"npx prisma migrate deploy"
     },
     "dependencies": {
-        "@prisma/client": "^3.15.2",
+        "@prisma/client": "^4.1.1",
         "body-parser": "^1.19.0",
         "cookie-parser": "~1.4.4",
         "debug": "~2.6.9",
@@ -26,8 +28,8 @@
         "yamljs": "^0.3.0"
     },
     "devDependencies": {
-        "prisma": "^3.15.2",
         "jest": "^28.1.2",
+        "prisma": "^4.1.1",
         "supertest": "^6.2.4"
     }
 }

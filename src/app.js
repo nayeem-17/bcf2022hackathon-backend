@@ -1,6 +1,5 @@
 const createError = require('http-errors');
 const express = require('express');
-const mongoose = require('mongoose')
 
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -10,6 +9,7 @@ require('dotenv').config()
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 const limiter = require('./services/rateLimiter');
+const adminRouter = require('./routes/admin');
 
 const app = express();
 
@@ -20,25 +20,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(limiter)
-// connecting to database, mongodb 
-const mongo_url = process.env.NODE_ENV !== 'PROD' ? process.env.MONGO_LOCAL : process.env.MONGO_CLOUD;
-
-mongoose
-  .connect(mongo_url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(con => {
-    console.log("Database Connection Established")
-  })
-  .catch(e => {
-    console.log("Totally Fucked Up With Connecting Database , Man!" + mongo_url)
-    console.log(e)
-  })
-
 
 app.use('/', indexRouter);
-app.use('/auth', authRouter);
+app.use('/api/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
