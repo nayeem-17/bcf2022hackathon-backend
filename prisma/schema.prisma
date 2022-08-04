@@ -24,9 +24,34 @@ model Admin {
 }
 
 model Course {
-  id          Int      @id @default(autoincrement())
-  name        String?  @db.VarChar(512)
-  description String?  @db.VarChar(2048)
-  created_at  DateTime @default(dbgenerated("timezone('UTC+6'::text, CURRENT_TIMESTAMP)")) @db.Timestamp(6)
-  updated_at  DateTime @default(dbgenerated("timezone('UTC+6'::text, CURRENT_TIMESTAMP)")) @db.Timestamp(6)
+  id           Int            @id @default(autoincrement())
+  name         String?        @db.VarChar(512)
+  description  String?        @db.VarChar(2048)
+  created_at   DateTime       @default(dbgenerated("timezone('UTC+6'::text, CURRENT_TIMESTAMP)")) @db.Timestamp(6)
+  updated_at   DateTime       @default(dbgenerated("timezone('UTC+6'::text, CURRENT_TIMESTAMP)")) @db.Timestamp(6)
+  Registration Registration[]
+}
+
+model Student {
+  id           Int            @id @default(autoincrement())
+  name         String?        @db.VarChar(512)
+  gender       String?        @db.VarChar(8)
+  year         Int?           @db.Integer
+  Registration Registration[]
+  Result       Result[]
+}
+
+model Registration {
+  id        Int     @id @default(autoincrement())
+  student   Student @relation(fields: [studentId], references: [id])
+  studentId Int
+  course    Course  @relation(fields: [courseId], references: [id])
+  courseId  Int
+}
+
+model Result {
+  id        Int     @id @default(autoincrement())
+  Student   Student @relation(fields: [studentId], references: [id])
+  grade     String? @db.VarChar(8)
+  studentId Int
 }

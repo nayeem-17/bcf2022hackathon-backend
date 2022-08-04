@@ -1,10 +1,10 @@
 const request = require('supertest')
 
 const app = require('../app');
-let course_id;
 let commonHeaders = {
     authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsIm5hbWUiOm51bGwsImlhdCI6MTY1OTU5NTg3MH0.Kd6yVys8bMmUiHtbvxB_-vm1tnK0fVBh-rNYL6bHHhY"
 }
+let student_id;
 const login = (Math.random() + 1).toString(36).substring(8);
 describe('given username and password', () => {
     test('should respond with 200', async () => {
@@ -30,78 +30,47 @@ describe('Login', () => {
     })
 })
 
-describe('Admin add course', () => {
+// create student
+describe('Admin add student', () => {
     test('should respond with 200', async () => {
         const response = await request(app)
-            .post('/api/admin/course/add')
+            .post('/api/admin/student/add')
             .set(commonHeaders)
             .send({
-                "name": "c",
-                "description": "desc"
+                "name": "name",
+                "gender": "gender",
+                "year": 12
             })
 
         expect(response.statusCode).toBe(200);
         expect(response.body).toBeDefined();
         expect(typeof response.body.id).toBe("number");
-        course_id = response.body.id;
+        student_id = response.body.id;
     })
 });
 
-describe('Get course list', () => {
+describe('Admin add result', () => {
     test('should respond with 200', async () => {
-
         const response = await request(app)
-            .get('/api/admin/course/list')
-            .set(commonHeaders)
-
-            .send({})
-
-        expect(response.statusCode).toBe(200);
-        expect(response.body).toBeDefined();
-        expect(response.body.length).toBeGreaterThan(0);
-    })
-})
-
-describe('Get One Course', () => {
-    test('should respond with 200', async () => {
-
-        const response = await request(app)
-            .get('/api/admin/course/get/' + course_id)
-            .set(commonHeaders)
-
-            .send({})
-
-        expect(response.statusCode).toBe(200);
-        expect(response.body).toBeDefined();
-    })
-})
-
-describe('Update one course', () => {
-    test('should respond with 200', async () => {
-
-        const response = await request(app)
-            .put('/api/admin/course/update/' + course_id)
+            .post('/api/admin/result/add')
             .set(commonHeaders)
             .send({
-                "name": "d",
-                "description": "desc"
+                "student_id": student_id,
+                "grade": "A+"
             })
-        console.log(response.body);
         expect(response.statusCode).toBe(200);
-        expect(response.body).toBeDefined();
 
     })
-})
+});
 
-describe('Delete One Course', () => {
+describe('Student see result', () => {
     test('should respond with 200', async () => {
-
         const response = await request(app)
-            .delete('/api/admin/course/delete/' + course_id)
-            .set(commonHeaders)
-            .send({})
-
+            .get('/api/student/get-result')
+            .send({
+                "student_id": student_id
+            })
         expect(response.statusCode).toBe(200);
-        expect(response.body.success).toBe(true);
+
     })
-})
+});

@@ -4,8 +4,7 @@ const prisma = new PrismaClient()
 class CourseController {
     constructor () {}
     list = async (req, res, next) => {
-        const { userId } = req.body;
-        console.log(userId);
+
         const courses = await prisma.course.findMany();
         return res.status(200).json(courses)
     }
