@@ -5,7 +5,7 @@ let student_id;
 let commonHeaders = {
     authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsIm5hbWUiOm51bGwsImlhdCI6MTY1OTU5NTg3MH0.Kd6yVys8bMmUiHtbvxB_-vm1tnK0fVBh-rNYL6bHHhY"
 }
-
+console.log("->>>" + process.env.DATABASE_URL);
 const login = (Math.random() + 1).toString(36).substring(8);
 describe('given username and password', () => {
     test('should respond with 200', async () => {
