@@ -92,16 +92,3 @@ describe('Update one course', () => {
 
     })
 })
-
-describe('Delete One Course', () => {
-    test('should respond with 200', async () => {
-
-        const response = await request(app)
-            .delete('/api/admin/course/delete/' + course_id)
-            .set(commonHeaders)
-            .send({})
-
-        expect(response.statusCode).toBe(200);
-        expect(response.body.success).toBe(true);
-    })
-})
