@@ -3,5 +3,6 @@ WORKDIR /app
 COPY package.json /app
 RUN npm i
 COPY . /app
-EXPOSE 8080
+RUN npm run db-deploy
+EXPOSE 8000
 CMD ["npm", "start"]
