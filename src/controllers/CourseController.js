@@ -9,6 +9,25 @@ class CourseController {
         const courses = await prisma.course.findMany();
         return res.status(200).json(courses)
     }
+    get = async (req, res, next) => {
+        try {
+            const course_id = parseInt(req.params.id);
+            const { userId } = req.body;
+            console.log(userId);
+            const course = await prisma.course.findFirst({
+                where: {
+                    id: course_id
+                }
+            });
+            return res.status(200).json(course)
+        } catch (e) {
+            if (e) {
+                return res.status(400).json({
+                    "message": "invalid course id"
+                })
+            }
+        }
+    }
     add = async (req, res, next) => {
         const {
             name,

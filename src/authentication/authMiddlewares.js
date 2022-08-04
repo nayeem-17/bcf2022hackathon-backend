@@ -13,6 +13,11 @@ module.exports.login = async (req, res, next) => {
         }
     });
 
+    if (!userInfo) {
+        return res.status(404).json({
+            "message": "user not found"
+        })
+    }
     const hashPass = userInfo.password;
     //  Add more info if needed
     const { id, name } = userInfo;

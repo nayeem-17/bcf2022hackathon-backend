@@ -7,6 +7,7 @@ const adminCourseRouter = express.Router()
 adminCourseRouter.use(isValidAdminJWTToken);
 adminCourseRouter.get('/list', courseController.list);
 adminCourseRouter.post('/add', courseController.add)
-adminCourseRouter.post('/update/:id', courseController.update)
+adminCourseRouter.get('/get/:id', courseController.get)
+adminCourseRouter.put('/update/:id', courseController.update)
 adminCourseRouter.delete('/delete/:id', courseController.delete)
 module.exports = adminCourseRouter;
