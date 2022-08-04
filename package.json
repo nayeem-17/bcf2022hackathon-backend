@@ -7,7 +7,7 @@
         "test": "npx jest --forceExit",
         "migrate": "npx prisma migrate dev",
         "push": "npx prisma db push",
-        "db-push": "npm run push && npm run migrate dev",
+        "db-push": "npm run push && npm run migrate",
         "db-deploy": "npx prisma migrate deploy",
         "build":"docker-compose up --build -d"
     },
