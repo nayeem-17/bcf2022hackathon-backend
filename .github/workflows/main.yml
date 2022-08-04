@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: ["master"]
+    branches: ["main"]
   pull_request:
-    branches: ["master"]
+    branches: ["main"]
 
 jobs:
   build:
@@ -15,8 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: [14.x, 16.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -25,11 +24,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-        env:
-          PORT: 8000
-          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
-          NODE_ENV: test
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+      - run: echo "DATABASE_URL=${{ secrets.TEST_DATABASE_URL }}" >> .env
+      - run: echo "JWT_SECRET=U~A^O8vk510OZswgrvwwr4$%@&*(@)/*frwrgvwrs24422342w" >> .env
       - run: npm install --force
-      - run: docker-compose up -f docker-compose.test.yml --build -d
+      - run: docker-compose -f docker-compose.test.yml up --build -d
+      - run: npm run db-deploy
       - run: npm run test

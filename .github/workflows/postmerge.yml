@@ -1,0 +1,45 @@
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+      - run: echo "JWT_SECRET=U~A^O8vk510OZswgrvwwr4$%@&*(@)/*frwrgvwrs24422342w" >> .env
+      - run: npm install --force
+      - run: docker-compose -f docker-compose.test.yml up --build -d
+      - run: npm run db-deploy
+      - run: npm run test
+      - name: Run CodeBuild
+        uses: aws-actions/aws-codebuild-run-build@v1
+        with:
+          project-name: BCF2022HACKATHON
+          buildspec-override: ./buildspec.yaml
+          # compute-type-override: compute-type
+        #   environment-type-override: environment-type
+        #   image-override: ecr-image-uri
+        #   env-vars-for-codebuild: |
+        #     custom,
+        #     requester,
+        #     event-name
+        # env:
+        #   custom: my environment variable
+        #   requester: ${{ github.actor }}
+        #   event-name: ${{ github.event_name }}
