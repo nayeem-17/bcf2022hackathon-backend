@@ -25,11 +25,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-        env:
-          PORT: 8000
-          DATABASE_URL: "postgresql://postgres:pass@localhost:5432/bcf2022hackathon-test?sslmode=disable"
-          NODE_ENV: test
-          JWT_SECRET: "${{ secrets.JWT_SECRET }}"
+
       - run: npm install --force
       - run: |
           echo ${{secrets.JWT_SECRET}}
