@@ -25,5 +25,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+      - env:
+          PORT: 8000
+          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+          NODE_ENV: test
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
       - run: npm install --force
+      - run: docker-compose up -f docker-compose.test.yml --build -d
       - run: npm run test

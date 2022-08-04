@@ -7,6 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// datasource test_db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
 model Admin {
   id         Int      @id @default(autoincrement())
   name       String?  @db.VarChar(512)

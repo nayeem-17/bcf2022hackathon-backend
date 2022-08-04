@@ -1,22 +1,13 @@
 version: "3.1"
 services:
-  mongo:
-    image: mongo
-    restart: always
-    expose:
-      - 27071
-    volumes:
-      - ./db/:/data/db
-
   node_app:
     build: .
     ports:
-      - 80:8080
+      - 80:8000
     external_links:
       - "mongo"
-    environment:
-      - MONGO_LOCAL=mongodb://mongo:27017
-      - PORT=8080
+    env_file:
+      - .env
     volumes:
       - .:/app/
       - /app/node_modules
