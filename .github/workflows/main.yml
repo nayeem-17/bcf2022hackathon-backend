@@ -29,5 +29,5 @@ jobs:
       - run: echo "JWT_SECRET=U~A^O8vk510OZswgrvwwr4$%@&*(@)/*frwrgvwrs24422342w" >> .env
       - run: npm install --force
       - run: docker-compose -f docker-compose.test.yml up --build -d
-      - run: npm run db-deploy
+      - run: npm run push
       - run: npm run test

@@ -5,7 +5,7 @@ let student_id;
 let commonHeaders = {
     authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsIm5hbWUiOm51bGwsImlhdCI6MTY1OTU5NTg3MH0.Kd6yVys8bMmUiHtbvxB_-vm1tnK0fVBh-rNYL6bHHhY"
 }
-
+console.log("->>>" + process.env.DATABASE_URL);
 const login = (Math.random() + 1).toString(36).substring(8);
 describe('given username and password', () => {
     test('should respond with 200', async () => {
@@ -96,15 +96,3 @@ describe('Update one student', () => {
     })
 })
 
-describe('Delete One Student', () => {
-    test('should respond with 200', async () => {
-
-        const response = await request(app)
-            .delete('/api/admin/student/delete/' + student_id)
-            .set(commonHeaders)
-            .send({})
-
-        expect(response.statusCode).toBe(200);
-        expect(response.body.success).toBe(true);
-    })
-})
