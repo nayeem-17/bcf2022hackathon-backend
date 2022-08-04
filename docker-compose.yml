@@ -10,17 +10,3 @@ services:
       - .:/app/
       - /app/node_modules
     restart: unless-stopped
-  postgres:
-    container_name: postgres-container
-    image: postgres
-    expose:
-      - 5432
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: demo
-    volumes:
-      - ./postgresDb:/var/lib/postgresql/data
-    restart: unless-stopped
