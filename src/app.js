@@ -28,7 +28,7 @@ app.use(cors())
 
 app.use(limiter)
 
-app.use('/', indexRouter);
+app.use('/health', indexRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/student', studentRouter);
 
