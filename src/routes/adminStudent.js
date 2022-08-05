@@ -6,9 +6,12 @@ const studentController = new StudentController();
 const adminStudentRouter = express.Router()
 
 adminStudentRouter.use(isValidAdminJWTToken);
+
 adminStudentRouter.get('/list', studentController.list);
 adminStudentRouter.post('/add', studentController.add)
 adminStudentRouter.get('/get/:id', studentController.get)
 adminStudentRouter.put('/update/:id', studentController.update)
 adminStudentRouter.delete('/delete/:id', studentController.delete)
+adminStudentRouter.get('/registered', studentController.getRegistered)
+
 module.exports = adminStudentRouter;

@@ -63,6 +63,40 @@ class StudentController {
         const students = await prisma.student.findMany();
         return res.status(200).json(students)
     }
+
+    getRegistered = async (req, res) => {
+        try {
+            const course_id = parseInt(req.body.course_id);
+            const registrations = await prisma.registration.findMany({
+                where: {
+                    courseId: course_id
+                }
+            })
+
+            const student_ids = []
+
+            registrations.forEach(s => {
+                student_ids.push(s.studentId);
+            })
+            const students = await prisma.student.findMany({
+                where: {
+                    id: {
+                        in: student_ids
+                    }
+                }
+            })
+            return res.status(200).json(students)
+
+        } catch (e) {
+            if (e) {
+                console.log(e);
+                return res.status(400).json({
+                    "message": "invalid course id"
+                })
+            }
+        }
+    }
+
     get = async (req, res) => {
         try {
             const student_id = parseInt(req.params.id);
