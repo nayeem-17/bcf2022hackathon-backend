@@ -66,7 +66,7 @@ class StudentController {
 
     getRegistered = async (req, res) => {
         try {
-            const course_id = parseInt(req.body.course_id);
+            const course_id = parseInt(req.params.course_id);
             const registrations = await prisma.registration.findMany({
                 where: {
                     courseId: course_id

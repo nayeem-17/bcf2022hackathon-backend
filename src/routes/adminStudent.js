@@ -12,6 +12,6 @@ adminStudentRouter.post('/add', studentController.add)
 adminStudentRouter.get('/get/:id', studentController.get)
 adminStudentRouter.put('/update/:id', studentController.update)
 adminStudentRouter.delete('/delete/:id', studentController.delete)
-adminStudentRouter.get('/registered', studentController.getRegistered)
+adminStudentRouter.get('/registered/:course_id', studentController.getRegistered)
 
 module.exports = adminStudentRouter;
